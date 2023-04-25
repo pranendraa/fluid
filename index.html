@@ -3,14 +3,32 @@
 <head>
 	<title>Web Player</title>
 	<link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" type="text/css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<style>
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
+		#input-container {
+			max-width: 500px;
+			margin-bottom: 20px;
+		}
+		#player-container {
+			max-width: 800px;
+		}
+	</style>
 </head>
 <body>
-	<div id="input-container">
-		<label for="video-url">Masukkan URL Video:</label>
-		<input type="text" id="video-url">
-		<button id="play-button">Play</button>
+	<div class="container">
+		<div id="input-container" class="form-group">
+			<label for="video-url">Masukkan URL Video:</label>
+			<input type="text" class="form-control" id="video-url">
+			<button id="play-button" class="btn btn-primary mt-2">Play</button>
+		</div>
+		<div id="player-container"></div>
 	</div>
-	<div id="player-container"></div>
 
 	<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
 	<script>
@@ -43,6 +61,7 @@
 				});
 				const backButton = document.createElement("button");
 				backButton.innerText = "Kembali";
+				backButton.className = "btn btn-secondary mt-2";
 				backButton.addEventListener("click", function() {
 					player.destroy();
 					inputContainer.style.display = "block";
