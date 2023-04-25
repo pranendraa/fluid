@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Web Player</title>
+	<link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" type="text/css">
+</head>
+<body>
+	<div id="input-container">
+		<label for="video-url">Masukkan URL Video:</label>
+		<input type="text" id="video-url">
+		<button id="play-button">Play</button>
+	</div>
+	<div id="player-container"></div>
+
+	<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+	<script>
+		const inputContainer = document.getElementById("input-container");
+		const playerContainer = document.getElementById("player-container");
+		const playButton = document.getElementById("play-button");
+
+		playButton.addEventListener("click", function() {
+			const videoUrl = document.getElementById("video-url").value;
+			if (videoUrl) {
+				inputContainer.style.display = "none";
+				playerContainer.style.display = "block";
+				const player = fluidPlayer("player-container", {
+					layoutControls: {
+						autoPlay: true,
+						mute: false,
+						allowTheatre: true,
+						playButtonShowing: false,
+						playPauseAnimation: true,
+						persistentSettings: {
+							volume: false
+						}
+					},
+					vastOptions: {
+						adList: []
+					},
+					controls: {
+						url: videoUrl
+					}
+				});
+				const backButton = document.createElement("button");
+				backButton.innerText = "Kembali";
+				backButton.addEventListener("click", function() {
+					player.destroy();
+					inputContainer.style.display = "block";
+					playerContainer.style.display = "none";
+				});
+				playerContainer.appendChild(backButton);
+			}
+		});
+	</script>
+</body>
+</html>
