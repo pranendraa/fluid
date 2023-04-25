@@ -1,77 +1,71 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Web Player</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fluid-player/fluid-player@master/src/css/fluidplayer.css" type="text/css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<style>
-		.container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			margin-top: 50px;
-		}
-		#input-container {
-			max-width: 500px;
-			margin-bottom: 20px;
-		}
-		#player-container {
-			max-width: 800px;
-		}
-	</style>
-</head>
-<body>
-	<div class="container">
-		<div id="input-container" class="form-group">
-			<label for="video-url">Masukkan URL Video:</label>
-			<input type="text" class="form-control" id="video-url">
-			<button id="play-button" class="btn btn-primary mt-2">Play</button>
-		</div>
-		<div id="player-container"></div>
-	</div>
+  <head>
+    <title>Web Player</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fluid-player/fluid-player@master/src/css/fluidplayer.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+      #video-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      #video-input {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="video-container">
+        <div id="video-player"></div>
+        <div id="video-input">
+          <input type="text" class="form-control" placeholder="Masukkan URL video" />
+          <button class="btn btn-primary" onclick="playVideo()">Play</button>
+        </div>
+        <button class="btn btn-secondary" onclick="showInput()">Back</button>
+      </div>
+    </div>
 
-	<script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-<!-- 	<script src="https://cdn.jsdelivr.net/gh/fluid-player/fluid-player@master/src/fluidplayer.js"></script> -->
-	
-	<script>
-		const inputContainer = document.getElementById("input-container");
-		const playerContainer = document.getElementById("player-container");
-		const playButton = document.getElementById("play-button");
+    <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+    <script>
+      var videoContainer = document.getElementById("video-container");
+      var videoPlayer = document.getElementById("video-player");
+      var videoInput = document.getElementById("video-input");
 
-		playButton.addEventListener("click", function() {
-			const videoUrl = document.getElementById("video-url").value;
-			if (videoUrl) {
-				inputContainer.style.display = "none";
-				playerContainer.style.display = "block";
-				const player = fluidPlayer("player-container", {
-					layoutControls: {
-						autoPlay: true,
-						mute: false,
-						allowTheatre: true,
-						playButtonShowing: false,
-						playPauseAnimation: true,
-						persistentSettings: {
-							volume: false
-						}
-					},
-					vastOptions: {
-						adList: []
-					},
-					controls: {
-						url: videoUrl
-					}
-				});
-				const backButton = document.createElement("button");
-				backButton.innerText = "Kembali";
-				backButton.className = "btn btn-secondary mt-2";
-				backButton.addEventListener("click", function() {
-					player.destroy();
-					inputContainer.style.display = "block";
-					playerContainer.style.display = "none";
-				});
-				playerContainer.appendChild(backButton);
-			}
-		});
-	</script>
-</body>
+      function showInput() {
+        videoPlayer.innerHTML = "";
+        videoInput.style.display = "block";
+      }
+
+      function playVideo() {
+        var videoUrl = document.querySelector("#video-input input").value;
+        if (videoUrl) {
+          videoInput.style.display = "none";
+          videoPlayer.style.display = "block";
+          fluidPlayer("video-player", {
+            layoutControls: {
+              fillToContainer: true,
+              primaryColor: "#000000",
+              posterImage: ""
+            },
+            vastOptions: {
+              url: ""
+            },
+            autoPlay: true,
+            sources: [
+              {
+                type: "video/mp4",
+                src: videoUrl
+              }
+            ]
+          });
+        }
+      }
+    </script>
+  </body>
 </html>
